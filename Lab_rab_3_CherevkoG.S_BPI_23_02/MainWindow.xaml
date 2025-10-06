@@ -1,12 +1,277 @@
 ﻿<Window x:Class="Lab_rab_3_CherevkoG.S_BPI_23_02.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lab_rab_3_CherevkoG.S_BPI_23_02"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Lab_rab_3_CherevkoG.S_BPI_23_02"
+    mc:Ignorable="d"
+    Title="Калькулятор формул" Height="620" Width="850" 
+    WindowStartupLocation="CenterScreen" MinHeight="620" MinWidth="850"
+    MaxHeight="720" MaxWidth="1000">
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="RadioButton.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="RadioButton.Static.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Glyph" Color="#FF707070"/>
+        <Style x:Key="MoiRadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="BlueViolet"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="AliceBlue"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Cyan"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="DarkCyan"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="Yellow" Offset="0.0" />
+            <GradientStop Color="Red" Offset="0.25" />
+            <GradientStop Color="Blue" Offset="0.75" />
+            <GradientStop Color="LimeGreen" Offset="1.0" />
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.85*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10" Grid.Column="0" Grid.Row="0">
+            <Label Content="Выберите формулу для расчета:" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            <RadioButton Style="{DynamicResource MoiRadioButtonStyle}" GroupName="F" IsChecked="True" Name="Radio1">
+                <WrapPanel>
+                    <Image Source="/Images/Formula1.png" Height="50" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <GroupBox Header="Формула 1: sin(f × a)">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="a:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox    Grid.Row="0" Grid.Column="1" Name="R1ComboA" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="R1TextA" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="f:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Name="R1ComboF" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Name="R1TextF" Margin="2" Width="80" Height="25" Text="4" TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource MoiRadioButtonStyle}" GroupName="F" Name="Radio2">
+                <WrapPanel>
+                    <Image Source="/Images/Formula2.png" Height="50" Width="150" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <GroupBox Header="Формула 2: cos(f × a) + sin(f × b)">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="a:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Name="R2ComboA" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="R2TextA" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="b:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Name="R2ComboB" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Name="R2TextB" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="f:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" Name="R2ComboF" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="R2TextF" Margin="2" Width="80" Height="25" Text="10" TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+            </RadioButton>
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Column="1" Grid.Row="0">
+            <RadioButton Style="{DynamicResource MoiRadioButtonStyle}" GroupName="F" Name="Radio3">
+                <WrapPanel>
+                    <Image Source="/Images/Formula3.png" Height="50" Width="150" Margin="0,0,10,0" Stretch="Uniform" VerticalAlignment="Center"/>
+                    <GroupBox Header="Формула 3: c × a² + d × b²">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="a:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Name="R3ComboA" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="R3TextA" Margin="2" Width="70" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="b:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Name="R3ComboB" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Name="R3TextB" Margin="2" Width="70" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="c:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" Name="R3ComboC" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="R3TextC" Margin="2" Width="70" Height="25" Text="0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="d:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="3" Grid.Column="1" Name="R3ComboD" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" Name="R3TextD" Margin="2" Width="70" Height="25" Text="0" TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource MoiRadioButtonStyle}" GroupName="F" Name="Radio4">
+                <WrapPanel>
+                    <Image Source="/Images/Formula4.png" Height="50" Width="150" Margin="0,0,10,0" Stretch="Uniform" VerticalAlignment="Center"/>
+                    <GroupBox Header="Формула 4: ∑(c + a)^i">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="c:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Name="R4ComboC" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="R4TextC" Margin="2" Width="70" Height="25" Text="0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="d:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Name="R4ComboD" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Name="R4TextD" Margin="2" Width="70" Height="25" Text="0" TextChanged="TextBox_TextChanged"/>
+
+                            <Label Content="a:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" Name="R4ComboA" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="R4TextA" Margin="2" Width="70" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+            </RadioButton>
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Column="0" Grid.Row="1">
+            <RadioButton Style="{DynamicResource MoiRadioButtonStyle}" GroupName="F" Name="Radio5">
+                <WrapPanel>
+                    <Image Source="/Images/Formula5.png" Height="50" Width="150" Margin="0,0,10,0" Stretch="Uniform" VerticalAlignment="Center"/>
+                    <GroupBox Header="Формула 5 Вариант 15">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="N:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Name="R5ComboN" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="R5TextN" Margin="2" Width="80" Height="25" Text="5" TextChanged="TextBox_TextChanged"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="K:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Name="R5ComboK" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Name="R5TextK" Margin="2" Width="80" Height="25" Text="3" TextChanged="TextBox_TextChanged"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="P:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" Name="R5ComboP" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="R5TextP" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="X:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="3" Grid.Column="1" Name="R5ComboX" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" Name="R5TextX" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="F:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="4" Grid.Column="1" Name="R5ComboF" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" Name="R5TextF" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Y:" Margin="2" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Row="5" Grid.Column="1" Name="R5ComboY" Margin="2" Height="25" SelectionChanged="ComboBox_SelectionChanged"/>
+                            <TextBox Grid.Row="5" Grid.Column="2" Name="R5TextY" Margin="2" Width="80" Height="25" Text="1.0" TextChanged="TextBox_TextChanged"/>
+                        </Grid>
+                    </GroupBox>
+                </WrapPanel>
+            </RadioButton>
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Column="1" Grid.Row="1">
+            <StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="buttonCalc" Content="Рассчитать" Width="120" Height="30" Margin="5" Click="ButtonCalc_Click"/>
+                <TextBox Name="Result" Text="Результат" IsReadOnly="True" Width="250" Height="80" Margin="5" 
+                 TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="LightGray"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
